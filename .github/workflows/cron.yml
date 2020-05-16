@@ -1,9 +1,9 @@
 name: Scheduled Margin Update
 
 on:
-    schedule:
-      # * is a special character in YAML so you have to quote this string
-      - cron:  '0 */6 * * *'
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '0 */6 * * *'
 
 jobs:
   cron:
@@ -11,17 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Update data/cme_margin.csv
-        run: |
-          docker pull volemont/cme_margin:latest
-          docker run --rm -v ${PWD}:/data volemont/cme_margin:latest /data/data/cme_margin.csv
+      - name: Pull image
+        run: docker pull volemont/cme_margin:latest
 
-      - name: Commit to repository
+      - name: Update data/cme_margin.csv
+        run: docker run --rm -v ${PWD}:/data volemont/cme_margin:latest /data/data/cme_margin.csv
+
+      - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add data/cme_margin.csv
-          git commit -m "Update margin"
+          git diff-index --quiet HEAD || git commit -m "Update margin"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
