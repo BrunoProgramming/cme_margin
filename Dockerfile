@@ -25,14 +25,14 @@ FROM base AS runtime
 COPY --from=python-deps /.venv /.venv
 ENV PATH="/.venv/bin:$PATH"
 
+# NOTE: Disabled, GitHub Actions must be run by the default Docker user (root).
+#       Source: https://git.io/JfUrt
 # Create and switch to a new user
-RUN useradd --create-home appuser
-WORKDIR /home/appuser
-USER appuser
+#RUN useradd --create-home appuser
+#USER appuser
 
 # Install application into container
 COPY . .
 
 # Run the executable
 ENTRYPOINT ["python", "-m", "cme_margin"]
-CMD ["10"]

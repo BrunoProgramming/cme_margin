@@ -1,11 +1,13 @@
-from cme_margin.cme_margin import fib
+from pathlib import Path
+
+from cme_margin.cme_margin import download, merge, read, write
 
 
-def test_fib() -> None:
-    assert fib(0) == 0
-    assert fib(1) == 1
-    assert fib(2) == 1
-    assert fib(3) == 2
-    assert fib(4) == 3
-    assert fib(5) == 5
-    assert fib(10) == 55
+def test_module() -> None:
+
+    # read existing margin file and merge with downloaded margin
+    path = Path("test/test_data.csv")
+    old = read(path)
+    new = download()
+    result = merge(old, new.head(10))
+    write(result, path)

@@ -1,6 +1,6 @@
 name: Test
 
-on: 
+on:
   pull_request: {}
   push:
     branches: master
@@ -38,4 +38,4 @@ jobs:
 
       - name: Smoke test docker image
         run: |
-          docker run --rm cme_margin:test 10
+          docker run --rm cme_margin:test test.csv

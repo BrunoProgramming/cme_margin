@@ -10,10 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Publish to GitHub packages
-      uses: whoan/docker-build-with-cache-action@v2
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        registry: docker.pkg.github.com
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        image_name: ${{ github.repository }}/cme_margin
+        name: ${{ github.repository }}
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
